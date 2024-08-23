@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "husky": "^4.3.8",
+    "lint-staged": "^15.2.9",
+    "uninstall": "^0.0.0"
+  }
+}

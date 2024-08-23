@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+env/
+ENV/
+.mypy_cache/
+pytest_cache/
+.pytest_cache/
+.dmypy.json
+.venv/
+node_modules
