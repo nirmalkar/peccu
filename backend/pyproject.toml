@@ -1,0 +1,11 @@
+[tool.black]
+line-length = 88
+exclude = '''
+/(
+    \.venv  # Exclude virtual environments
+  | venv
+  | build
+  | dist
+  | migrations
+)/
+'''

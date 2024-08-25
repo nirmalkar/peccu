@@ -11,7 +11,7 @@ Peccu is an AI-driven application designed to improve users' word communication,
 
 ## Planned Features
 
-- **Assessment-Based Conversations**: Choose an assessment, converse with the AI (soon to be named), and get feedback focused on pronunciation, grammar, and voice modulation.
+- **Assessment-Based Conversations**: Choose an assessment, converse with the AI (Peecu), and get feedback focused on pronunciation, grammar, and voice modulation.
 
 ## Project Structure
 
@@ -52,7 +52,7 @@ peccu/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/peccu.git
+git clone https://github.com/nirmalkar/peccu.git
 cd peccu
 ```
 

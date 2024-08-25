@@ -1,4 +1,21 @@
 {
+  "name": "peccu",
+  "version": "0.0.1",
+  "description": "Peccu is an AI-driven application designed to improve users' word communication, specifically pronunciation, grammar, and voice modulation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nirmalkar/peccu.git"
+  },
+  "author": "Hemant Nirmalkar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nirmalkar/peccu/issues"
+  },
+  "homepage": "https://github.com/nirmalkar/peccu#readme",
   "devDependencies": {
     "husky": "^9.1.5"
   }

@@ -1,0 +1,10 @@
+# Navigate to frontend, run linting
+cd frontend && npm run lint && cd ..
+
+# Activate the virtual environment and run formatters/linters in the backend
+cd backend
+source .venv/bin/activate  # Ensure the virtual environment is activated
+pip install -r requirements.txt
+black . --exclude 'venv'
+flake8 .
+cd ..
