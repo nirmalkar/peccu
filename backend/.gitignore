@@ -12,3 +12,5 @@ pytest_cache/
 .dmypy.json
 .venv/
 node_modules
+# Ignore SQLite database files
+*.db

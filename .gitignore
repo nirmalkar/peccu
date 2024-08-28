@@ -53,5 +53,4 @@ build/
 *.tsbuildinfo
 
 # Prevent .DS_Store files from being tracked
-echo ".DS_Store" >> ~/.gitignore_global
-git config --global core.excludesfile ~/.gitignore_global
+.DS_Store
