@@ -54,3 +54,6 @@ build/
 
 # Prevent .DS_Store files from being tracked
 .DS_Store
+
+# Prevent app DB from being tracked
+peccu.db

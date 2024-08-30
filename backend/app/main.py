@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from app.core.config import engine, Base
 from app.api.v1.routes import user, pronunciation
 from app.db.init_db import init_db
 

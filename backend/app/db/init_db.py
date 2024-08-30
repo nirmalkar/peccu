@@ -7,7 +7,7 @@ def init_db():
     logging.info("Initializing database...")
     try:
         import app.models.user
-        import app.models.pronunciation
+        import app.models.pronunciation  # noqa: F401
 
         Base.metadata.create_all(bind=engine)
         logging.info("Database initialized successfully.")
