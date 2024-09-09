@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class PronunciationBase(BaseModel):
     audio_file: str
     feedback: str
+    score: dict
 
 
 class PronunciationCreate(PronunciationBase):

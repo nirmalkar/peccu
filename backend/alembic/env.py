@@ -3,7 +3,8 @@ from alembic import context
 
 # Import your Base class and engine
 from app.core.config import engine
-from app.db.base_class import Base
+
+from app.core.config import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

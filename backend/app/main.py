@@ -1,9 +1,17 @@
+import debugpy
+import os
 from fastapi import FastAPI
 from app.api.v1.routes import user, pronunciation
 from app.db.init_db import init_db
 
-
 app = FastAPI()
+
+# Add this block for debugging with debugpy
+if os.getenv("DEBUG") == "true":
+    print("Starting debug server...")
+    debugpy.listen(("0.0.0.0", 5678))  # Port 5678 is used for debugging
+    print("Waiting for debugger to attach...")
+    debugpy.wait_for_client()
 
 
 @app.get("/")
