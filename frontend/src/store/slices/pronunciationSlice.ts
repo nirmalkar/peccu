@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { uploadAudio } from '../../services/apiService';
+import { FeedbackData } from '../../types/feedback';
 
 interface PronunciationState {
-  feedBack: string | null;
+  feedBack: FeedbackData | null;
   loading: boolean;
   error: string | null;
 }
@@ -37,7 +38,7 @@ const pronunciationSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    fetchFeedbackSuccess: (state, action: PayloadAction<string>) => {
+    fetchFeedbackSuccess: (state, action: PayloadAction<FeedbackData>) => {
       state.loading = false;
       state.feedBack = action.payload;
     },

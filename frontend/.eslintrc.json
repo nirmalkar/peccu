@@ -4,7 +4,23 @@
   "rules": {
     "prettier/prettier": "error",
     "no-console": "warn",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin", // Built-in imports go first (e.g. fs, path)
+          "external", // External imports (npm packages)
+          "internal", // Internal imports (e.g. utils, constants)
+          ["parent", "sibling", "index"] // Parent, sibling, and index imports
+        ],
+        "alphabetize": {
+          "order": "asc", // Sort in ascending order
+          "caseInsensitive": true // Ignore case when sorting
+        },
+        "newlines-between": "always" // Enforce new lines between groups
+      }
+    ]
   },
   "parserOptions": {
     "requireConfigFile": false,
