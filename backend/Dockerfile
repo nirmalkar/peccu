@@ -14,6 +14,9 @@ RUN apt-get update && \
         git \
         ffmpeg \
         build-essential \
+        libssl-dev \
+        libffi-dev \
+        python3-dev \
         && rm -rf /var/lib/apt/lists/*
 
 # Copy only the requirements.txt first to leverage Docker cache
@@ -37,5 +40,4 @@ RUN mkdir -p /app/temp
 # Expose port 8000 for the FastAPI application
 EXPOSE 8000
 
-# Define the command to run the FastAPI application using Uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

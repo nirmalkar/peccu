@@ -3,6 +3,8 @@ import os
 from fastapi import FastAPI
 from app.api.v1.routes import user, pronunciation
 from app.db.init_db import init_db
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 
@@ -13,6 +15,17 @@ if os.getenv("DEBUG") == "true":
     print("Waiting for debugger to attach...")
     debugpy.wait_for_client()
 
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def read_root():
