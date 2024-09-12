@@ -18,6 +18,13 @@
           "order": "asc", // Sort in ascending order
           "caseInsensitive": true // Ignore case when sorting
         },
+        "pathGroups": [
+          {
+            "pattern": "@/**",
+            "group": "internal"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
         "newlines-between": "always" // Enforce new lines between groups
       }
     ]
