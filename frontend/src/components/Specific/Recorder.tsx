@@ -1,9 +1,20 @@
+import { styled, Tooltip } from '@mui/material';
 import React, { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { feedBackReset } from '@/store/slices/pronunciationSlice';
+
+import CircularMicButton from './CircularMicButton';
 
 interface AudioRecorderPropsType {
   getAudioURL: (audioBlob: Blob) => void;
 }
+
+const MicButtonWrapper = styled('div')(() => ({
+  width: '90px',
+}));
 const AudioRecorder = ({ getAudioURL }: AudioRecorderPropsType) => {
+  const dispatch = useDispatch();
   const [isRecording, setIsRecording] = useState(false);
   const [audioURL, setAudioURL] = useState<string | null>(null);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
@@ -11,6 +22,9 @@ const AudioRecorder = ({ getAudioURL }: AudioRecorderPropsType) => {
   const audioChunksRef = useRef<Blob[]>([]);
 
   const startRecording = () => {
+    const audio = new Audio('../../../public/audio/start.mp3');
+    audio.play();
+    dispatch(feedBackReset());
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices
         .getUserMedia({ audio: true })
@@ -43,35 +57,25 @@ const AudioRecorder = ({ getAudioURL }: AudioRecorderPropsType) => {
 
   const stopRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
+      const audio = new Audio('../../../public/audio/stop.mp3');
+      audio.play();
       mediaRecorderRef.current.stop();
       setIsRecording(false);
     }
   };
 
-  const downloadAudio = () => {
-    if (audioBlob) {
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(audioBlob);
-      link.download = 'recording.wav';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
-
   return (
-    <div>
-      <h1>Audio Recorder</h1>
-      <button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording ? 'Stop Recording' : 'Start Recording'}
-      </button>
-      {audioURL && (
-        <div>
-          <audio src={audioURL} controls />
-          <button onClick={downloadAudio}>Download Recording</button>
-        </div>
-      )}
-    </div>
+    <Tooltip
+      sx={{ margin: '10px' }}
+      title={isRecording ? 'Recording' : 'Start Recording'}
+    >
+      <MicButtonWrapper
+        typeof="button"
+        onClick={isRecording ? stopRecording : startRecording}
+      >
+        <CircularMicButton isRecording={isRecording} />
+      </MicButtonWrapper>
+    </Tooltip>
   );
 };
 

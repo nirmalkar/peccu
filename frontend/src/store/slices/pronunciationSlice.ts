@@ -46,6 +46,7 @@ const pronunciationSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    feedBackReset: () => initialState,
   },
 });
 
@@ -53,6 +54,7 @@ export const {
   fetchFeedBackFailure,
   fetchFeedbackStart,
   fetchFeedbackSuccess,
+  feedBackReset,
 } = pronunciationSlice.actions;
 
 export const pronunciationReducer = pronunciationSlice.reducer;
