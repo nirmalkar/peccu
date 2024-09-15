@@ -12,5 +12,10 @@ pytest_cache/
 .dmypy.json
 .venv/
 node_modules
+tmpdir
+tmpdir_tts
+tmpdir_vocoder
 # Ignore SQLite database files
 *.db
+# ignore audio file 
+audio

@@ -60,7 +60,6 @@ cd peccu
 
 ```bash
 cp .env.example .env
-Install frontend dependencies:
 ```
 
 3. Install frontend dependencies:

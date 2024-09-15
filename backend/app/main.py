@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from app.api.v1.routes import user, pronunciation
 from app.db.init_db import init_db
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 
 app = FastAPI()
@@ -35,6 +36,7 @@ def read_root():
 
 app.include_router(user.router, prefix="/api/v1/users")
 app.include_router(pronunciation.router, prefix="/api/v1/pronunciation")
+app.mount("/audio", StaticFiles(directory="audio"), name="audio")
 
 
 # Call init_db to set up the database and potentially seed initial data

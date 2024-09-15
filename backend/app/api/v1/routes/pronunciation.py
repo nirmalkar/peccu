@@ -1,17 +1,28 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Request
 from sqlalchemy.orm import Session
 from app.api.v1.controllers.pronunciation_controller import (
     create_pronunciation,
     score_pronunciation,
 )
+import torchaudio
+from speechbrain.inference.TTS import Tacotron2
+from speechbrain.inference.vocoders import HIFIGAN
+
 from app.db.session import get_db
 import whisper
 import os
 
 router = APIRouter()
 
-# Initialize Whisper model
+# Initialize Whisper model and tacotron2 model
 model = whisper.load_model("base")
+tacotron2 = Tacotron2.from_hparams(
+    source="speechbrain/tts-tacotron2-ljspeech", savedir="tmpdir_tts"
+)
+
+hifi_gan = HIFIGAN.from_hparams(
+    source="speechbrain/tts-hifigan-ljspeech", savedir="tmpdir_vocoder"
+)
 
 
 @router.post("/upload/")
@@ -51,3 +62,39 @@ async def upload_pronunciation(
     if db_pronunciation:
         return db_pronunciation
     raise HTTPException(status_code=400, detail="Error processing pronunciation")
+
+
+@router.post("/text/")
+async def pronounce_text(request: Request, text: str = Form(...)):
+    if not text:
+        raise HTTPException(status_code=400, detail="Text must be provided")
+
+    # create mel-spectrogram from text
+    mel_output, mel_length, alignment = tacotron2.encode_text(text)
+
+    # Convert the mel-spectrogram to waveform using HiFi-GAN
+    waveforms = hifi_gan.decode_batch(mel_output)
+
+    # check for audio dir existence
+    audio_directory = "audio"
+    if not os.path.exists(audio_directory):
+        os.makedirs(audio_directory)
+
+    sanitized_text = text.replace(" ", "_")
+    audio_path = f"{audio_directory}/{sanitized_text}.wav"
+
+    try:
+        # convert waveform to audio file with torchaudio and save it
+        torchaudio.save(
+            audio_path, waveforms.squeeze(1), 22050
+        )  # 22050 is the sample rate, which mean 22050 samples are used per second to capture the audio
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Error saving audio file: {str(e)}"
+        )
+
+    # return audio url to access the audio file
+    base_url = str(request.base_url)
+    audio_url = f"{base_url}audio/{sanitized_text}.wav"
+
+    return {"audio_url": audio_url}
