@@ -1,7 +1,7 @@
 import debugpy
 import os
 from fastapi import FastAPI
-from app.api.v1.routes import user, pronunciation
+from app.api.v1.routes import user, pronunciation, passage
 from app.db.init_db import init_db
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -36,6 +36,7 @@ def read_root():
 
 app.include_router(user.router, prefix="/api/v1/users")
 app.include_router(pronunciation.router, prefix="/api/v1/pronunciation")
+app.include_router(passage.router, prefix="/api/v1/passage")
 app.mount("/audio", StaticFiles(directory="audio"), name="audio")
 
 

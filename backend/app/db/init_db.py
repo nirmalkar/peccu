@@ -8,6 +8,9 @@ def init_db():
     try:
         import app.models.user
         import app.models.pronunciation  # noqa: F401
+        import app.models.passage  # noqa: F401
+        import app.models.author  # noqa: F401
+        import app.models.user_submission  # noqa: F401
 
         Base.metadata.create_all(bind=engine)
         logging.info("Database initialized successfully.")

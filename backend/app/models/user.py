@@ -12,4 +12,6 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
     is_superuser = Column(Boolean, default=False)
+
+    passages = relationship("Passage", back_populates="user")
     pronunciations = relationship("Pronunciation", back_populates="user")
