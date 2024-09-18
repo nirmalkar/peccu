@@ -11,22 +11,15 @@ import Link from 'next/link';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { pages } from '@/constants/header';
 import { toggleTheme } from '@/store/slices/themeSlice';
 import { RootState } from '@/store/store';
-
-const pages = [
-  { name: 'Home', route: '/' },
-  { name: 'Practice', route: '/practice' },
-  { name: 'Conversations', route: 'conversations' },
-  { name: 'Voice', route: '/voice' },
-];
+import PeccuBird from '@/icons/dynamic/PeccuBird';
 
 const Header = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
-
-  const mode = isDarkMode ? 'dark' : 'light';
   const backgroundColor = isDarkMode
     ? theme.palette.background.paper
     : theme.palette.background.paper;
@@ -44,9 +37,7 @@ const Header = () => {
       elevation={2}
     >
       <Toolbar>
-        <IconButton size="large" edge="start" aria-label="menu" sx={{ mr: 2 }}>
-          Peccu
-        </IconButton>
+        <PeccuBird color={theme.palette.text.primary} />
         <Box
           sx={{
             flexGrow: 1,
