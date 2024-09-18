@@ -9,20 +9,13 @@ type CircularMicButtonPropsType = {
   isRecording?: boolean;
 };
 
-const CircularButton = styled(Button)<{
-  backgroundColor?: string;
-  size?: number;
-}>(({ backgroundColor }) => ({
-  borderRadius: '50%',
-  minWidth: 70,
-  minHeight: 70,
-  padding: 0,
-  backgroundColor: backgroundColor,
-}));
-
-const WaveDiv = styled('div')(() => ({
-  height: '50px',
-  width: '50px',
+const WaveDiv = styled('div')<{
+  size: number;
+  backgroundColor: string;
+  animationDuration: string;
+}>(({ size, backgroundColor, animationDuration }) => ({
+  height: `${size}px`,
+  width: `${size}px`,
   position: 'relative',
   display: 'inline-flex',
   justifyContent: 'center',
@@ -35,28 +28,52 @@ const WaveDiv = styled('div')(() => ({
     width: '100%',
     height: '100%',
     borderRadius: '50%',
-    backgroundColor: '#fafafa',
-    animation: 'ripple 1.5s ease-out infinite',
+    backgroundColor: backgroundColor,
+    animation: `waveAnimation ${animationDuration} ease-in-out infinite`,
   },
-  '@keyframes ripple': {
+  '@keyframes waveAnimation': {
     '0%': {
       transform: 'scale(0.8)',
-      opacity: 1,
+      opacity: 0.8,
+    },
+    '50%': {
+      transform: 'scale(1.5)',
+      opacity: 0.5,
     },
     '100%': {
-      transform: 'scale(2.5)',
-      opacity: 0,
+      transform: 'scale(0.8)',
+      opacity: 0.8,
     },
   },
 }));
 
+const CircularButton = styled(Button)<{
+  backgroundColor?: string;
+  size?: number;
+}>(({ backgroundColor }) => ({
+  borderRadius: '50%',
+  minWidth: 70,
+  minHeight: 70,
+  padding: 0,
+  backgroundColor: backgroundColor,
+}));
+
 const CircularMicButton = ({ isRecording }: CircularMicButtonPropsType) => {
   const theme = useTheme();
+
   return (
     <CircularButton backgroundColor={theme.palette.secondary.light}>
       {isRecording ? (
-        <WaveDiv>
-          <MicOffIcon sx={{ zIndex: 1 }} />
+        <WaveDiv size={60} backgroundColor="#fafafa" animationDuration="2s">
+          <WaveDiv size={50} backgroundColor="#eaeaea" animationDuration="2.2s">
+            <WaveDiv
+              size={40}
+              backgroundColor="#eaeaea"
+              animationDuration="2.4s"
+            >
+              <MicOffIcon sx={{ zIndex: 1 }} />
+            </WaveDiv>
+          </WaveDiv>
         </WaveDiv>
       ) : (
         <MicIcon />
@@ -64,4 +81,5 @@ const CircularMicButton = ({ isRecording }: CircularMicButtonPropsType) => {
     </CircularButton>
   );
 };
+
 export default CircularMicButton;

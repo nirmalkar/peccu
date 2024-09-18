@@ -1,5 +1,5 @@
 'use client';
-import { ThemeProvider } from '@mui/material';
+import { Box, ThemeProvider, Typography } from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
@@ -12,8 +12,27 @@ const Conversations = () => {
   const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-      <Header />
-      Conversations
+      <Box
+        sx={{
+          width: '100vw',
+          height: '100vh',
+          bgcolor: 'background.paper',
+        }}
+      >
+        <Header />
+        <Typography
+          variant="h1"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '60vh',
+            justifyContent: 'center',
+            color: 'text.primary',
+          }}
+        >
+          Conversations Page
+        </Typography>
+      </Box>
     </ThemeProvider>
   );
 };

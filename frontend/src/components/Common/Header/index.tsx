@@ -12,9 +12,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { pages } from '@/constants/header';
+import PeccuBird from '@/icons/dynamic/PeccuBird';
 import { toggleTheme } from '@/store/slices/themeSlice';
 import { RootState } from '@/store/store';
-import PeccuBird from '@/icons/dynamic/PeccuBird';
 
 const Header = () => {
   const theme = useTheme();
