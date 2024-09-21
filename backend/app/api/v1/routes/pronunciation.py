@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Request
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 from app.api.v1.controllers.pronunciation_controller import (
     create_pronunciation,
     score_pronunciation,
 )
+from app.api.v1.controllers.passage_controller import get_passage_by_id
 import torchaudio
 from speechbrain.inference.TTS import Tacotron2
 from speechbrain.inference.vocoders import HIFIGAN
@@ -11,6 +13,11 @@ from speechbrain.inference.vocoders import HIFIGAN
 from app.db.session import get_db
 import whisper
 import os
+
+
+class TextRequest(BaseModel):
+    text: str
+
 
 router = APIRouter()
 
@@ -29,6 +36,7 @@ hifi_gan = HIFIGAN.from_hparams(
 async def upload_pronunciation(
     user_id: int = Form(...),
     file: UploadFile = File(...),
+    passage_id: int = Form(...),
     db: Session = Depends(get_db),
 ):
     # check if temp directory exists, if not create.
@@ -45,9 +53,11 @@ async def upload_pronunciation(
     result = model.transcribe(file_location)
     transcription = result.get("text", "")
     #  this will be dynamic in the future
-    expected_text = "Hello, this is the test. This is the. This is the test."
+    db_passage = get_passage_by_id(db, passage_id)
+    if not db_passage:
+        raise HTTPException(status_code=404, detail="Passage not found")
 
-    pronunciation_scores = score_pronunciation(expected_text, transcription)
+    pronunciation_scores = score_pronunciation(db_passage.content, transcription)
 
     db_pronunciation = create_pronunciation(
         db=db,
@@ -65,7 +75,10 @@ async def upload_pronunciation(
 
 
 @router.post("/text/")
-async def pronounce_text(request: Request, text: str = Form(...)):
+async def pronounce_text(
+    request: Request, body: TextRequest, db: Session = Depends(get_db)
+):
+    text = body.text
     if not text:
         raise HTTPException(status_code=400, detail="Text must be provided")
 
@@ -79,9 +92,7 @@ async def pronounce_text(request: Request, text: str = Form(...)):
     audio_directory = "audio"
     if not os.path.exists(audio_directory):
         os.makedirs(audio_directory)
-
-    sanitized_text = text.replace(" ", "_")
-    audio_path = f"{audio_directory}/{sanitized_text}.wav"
+    audio_path = f"{audio_directory}/audio.wav"
 
     try:
         # convert waveform to audio file with torchaudio and save it
@@ -95,6 +106,6 @@ async def pronounce_text(request: Request, text: str = Form(...)):
 
     # return audio url to access the audio file
     base_url = str(request.base_url)
-    audio_url = f"{base_url}audio/{sanitized_text}.wav"
+    audio_url = f"{base_url}audio/audio.wav"
 
     return {"audio_url": audio_url}

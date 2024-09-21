@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 import { fetchPassages } from '../../services/passagesAPI';
 import { Passage, PassagesState } from '../../types/passage';
