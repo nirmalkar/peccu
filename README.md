@@ -23,6 +23,7 @@ peccu/
 │   ├── components/
 │   ├── styles/
 │   ├── tests/
+│   ├── Dockerfile
 │   ├── package.json
 │   ├── tsconfig.json
 │   └── ...
@@ -35,6 +36,7 @@ peccu/
 │   └── ...
 │
 ├── docker-compose.yml
+├── docker-compose.prod.yml
 ├── .env
 └── Makefile
 ```
@@ -44,8 +46,7 @@ peccu/
 ## Prerequisites
 
 **Docker**: Ensure Docker is installed on your machine.
-**Node.js**: Install Node.js (LTS version) for the frontend.
-**Python 3.8+**: Install Python for the backend.
+Docker: [Install Docker](https://docs.docker.com/desktop/) <br/>
 
 ### Installation
 
@@ -56,35 +57,36 @@ git clone https://github.com/nirmalkar/peccu.git
 cd peccu
 ```
 
-2. Set up environment variables:
+## Running the Application
+
+### Run the Application Using Docker Compose
+
+To start the entire application (backend, frontend, and Redis), run:
 
 ```bash
-cp .env.example .env
+docker compose up --build
 ```
 
-3. Install frontend dependencies:
+This command will:
+
+Build the frontend and backend Docker images.
+Start the services.
+Mount the backend and frontend directories, allowing changes to be reflected without restarting the containers.
+
+## Access the Application
+
+Frontend: Open http://localhost:3000 in your browser to view the Next.js frontend. <br/>
+Backend: The FastAPI backend will be accessible at http://localhost:8000.
+
+## Stopping the Application
+
+To stop the application, simply run:
 
 ```bash
-cd frontend
-npm install
+docker-compose down
 ```
 
-4. Install backend dependencies:
-
-```bash
-cd ../backend
-pip install -r requirements.txt
-```
-
-### Running the Application
-
-```bash
-make start
-```
-
-This will start both the Next.js frontend and FastAPI backend services.
-
-### Testing
+# Testing
 
 **_run test altogether_**: frontend and backend both have test files to run them altogether.
 

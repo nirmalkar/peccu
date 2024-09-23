@@ -21,6 +21,7 @@ services:
       - "5678:5678"
     volumes:
       - ./backend:/app
+      - ./backend/peccu.db:/app/peccu.db
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     depends_on:
       - redis

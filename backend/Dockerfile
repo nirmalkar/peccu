@@ -37,7 +37,21 @@ COPY . /app
 # Ensure the 'temp' directory exists for file uploads
 RUN mkdir -p /app/temp
 
+# Ensure the 'audio' directory exists for file saving audio files
+RUN mkdir -p /app/audio
+
+# Create the SQLite database file if it doesn't exist
+RUN touch /app/peccu.db
+
 # Expose port 8000 for the FastAPI application
 EXPOSE 8000
 
+# Set the environment for production or development
+# ARG ENVIRONMENT=production
+# ENV ENVIRONMENT=${ENVIRONMENT}
+
+# For development
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+# For production
+# CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", "--bind", "0.0.0.0:8000"]
