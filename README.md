@@ -57,6 +57,13 @@ git clone https://github.com/nirmalkar/peccu.git
 cd peccu
 ```
 
+2. Go to Backend directory create these.
+
+```bash
+mkdir audio
+touch peccu.db
+```
+
 ## Running the Application
 
 ### Run the Application Using Docker Compose
@@ -106,3 +113,7 @@ npm run test
 pytest
 
 ```
+
+## Contributing
+
+Feel free to open issues or submit pull requests if you have suggestions or improvements for the server.

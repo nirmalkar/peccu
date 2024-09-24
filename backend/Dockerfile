@@ -34,15 +34,6 @@ RUN pip install --no-cache-dir git+https://github.com/openai/whisper.git
 # Copy the rest of the application code
 COPY . /app
 
-# Ensure the 'temp' directory exists for file uploads
-RUN mkdir -p /app/temp
-
-# Ensure the 'audio' directory exists for file saving audio files
-RUN mkdir -p /app/audio
-
-# Create the SQLite database file if it doesn't exist
-RUN touch /app/peccu.db
-
 # Expose port 8000 for the FastAPI application
 EXPOSE 8000
 
