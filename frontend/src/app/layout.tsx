@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Roboto } from 'next/font/google';
+import NextTopLoader from 'nextjs-toploader';
+
 import './layout.css';
 
 const inter = Inter({
@@ -26,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${roboto.className}`}>
+        <NextTopLoader />
         {children}
       </body>
     </html>
